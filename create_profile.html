@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile - Dog Meet Dog</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <div>
+        <h2>Create Your Dog's Profile</h2>
+        <form id="profileForm">
+            <label for="dogName">Dog's Name:</label>
+            <input type="text" id="dogName" name="dogName" required>
+            <label for="dogAge">Dog's Age:</label>
+            <input type="number" id="dogAge" name="dogAge" required>
+            <label for="breed">Breed:</label>
+            <input type="text" id="breed" name="breed" required>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <label for="biography">Biography:</label>
+            <textarea id="biography" name="biography"></textarea>
+            <button type="submit">Create Profile</button>
+        </form>
+    </div>
+    <script src="autocomplete_breed.js"></script>
+    <script src="validate_profile.js"></script>
+</body>
+</html>

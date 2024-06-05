@@ -1,0 +1,29 @@
+<section>
+    <h2>Add Another Dog</h2>
+    <form id="addDogForm" action="/add-dog" method="POST" enctype="multipart/form-data">
+        <div id="dogs-container">
+            <div class="form-group dog-details" id="dog-template">
+                <h3>Dog Details</h3>
+                <label for="dogName">Dog's Name:</label>
+                <input type="text" id="dogName" name="dogName[]" required>
+                <label for="dogAge">Dog's Age:</label>
+                <input type="number" id="dogAge" name="dogAge[]" required>
+                <label for="dogBreed">Breed:</label>
+                <input type="text" id="dogBreed" class="dog-breed" name="dogBreed[]" required>
+                <label for="dogGender">Gender:</label>
+                <select id="dogGender" name="dogGender[]">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <label for="dogBio">Biography:</label>
+                <textarea id="dogBio" name="dogBio[]"></textarea>
+                <label for="dogImages">Upload Images:</label>
+                <input type="file" id="dogImages" name="dogImages[]" accept=".jpg, .jpeg, .png, .gif" multiple required>
+            </div>
+        </div>
+        <button type="button" class="add-dog">Add Another Dog</button>
+        <div class="form-group">
+            <button type="submit">Save Dogs</button>
+        </div>
+    </form>
+</section>

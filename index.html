@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Meet Dog: Redwood City Dog-Friendly Parks</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script>
+        // Redirect to login page if not logged in
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!sessionStorage.getItem('loggedIn')) {
+                document.getElementById('profileInfo').innerHTML = `
+                    <p><a href="login.html">Log in</a> to access more features.</p>
+                    <p>Don't have an account? <a href="create_account.html">Create an account</a></p>
+                `;
+            } else {
+                var profile = JSON.parse(sessionStorage.getItem('profile'));
+                if (profile) {
+                    document.getElementById('profileInfo').innerHTML = `
+                        <h2>Welcome, ${profile.dogName}!</h2>
+                        <p>Age: ${profile.dogAge}</p>
+                        <p>Breed: ${profile.breed}</p>
+                        <p>Gender: ${profile.gender}</p>
+                        <p>${profile.biography}</p>
+                    `;
+                } else {
+                    document.getElementById('profileInfo').innerHTML = `
+                        <p>No dog profile found. <a href="#" id="showAddDogForm">Add a dog</a></p>
+                    `;
+                }
+            }
+
+            // Show the Add Dog form when the link is clicked
+            document.getElementById('profileInfo').addEventListener('click', function(e) {
+                if (e.target && e.target.id === 'showAddDogForm') {
+                    e.preventDefault();
+                    document.getElementById('addDogFormContainer').style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        .dog-image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        .dog-image-container div {
+            flex: 1;
+            text-align: center;
+        }
+        .dog-image-container img {
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 5px;
+        }
+        .dog-name {
+            text-align: center;
+            font-size: 14px;
+            color: #007bff;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        form input, form select, form textarea, form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        footer ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        footer ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+        footer ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        #addDogFormContainer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Dog Meet Dog: Redwood City</h1>
+        <nav>
+            <a href="index.html">Home</a> | 
+            <a href="create_account.html">Create an Account</a> | 
+            <a href="search.html">Search Profiles</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="profileInfo"></div>
+
+        <section>
+            <h2>Upcoming Dog Meet Dog Events</h2>
+            <!-- Event list placeholder, requires login -->
+            <div id="eventsList">
+                <p><a href="login.html">Log in to view and schedule events</a></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Featured Pups</h2>
+            <div class="dog-image-container">
+                <div>
+                    <img src="images/aidan.jpeg" alt="Aidan 1">
+                    <div class="dog-name">Aidan 1</div>
+                </div>
+                <div>
+                    <img src="images/aidan.jpeg" alt="Aidan 2">
+                    <div class="dog-name">Aidan 2</div>
+                </div>
+                <div>
+                    <img src="images/aidan.jpeg" alt="Aidan 3">
+                    <div class="dog-name">Aidan 3</div>
+                </div>
+                <div>
+                    <img src="images/aidan.jpeg" alt="Aidan 4">
+                    <div class="dog-name">Aidan 4</div>
+                </div>
+                <div>
+                    <img src="images/aidan.jpeg" alt="Aidan 5">
+                    <div class="dog-name">Aidan 5</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Dog form section -->
+        <div id="addDogFormContainer">
+            <section>
+                <h2>Add a Dog</h2>
+                <form id="addDogForm">
+                    <label for="dogName">Dog's Name:</label>
+                    <input type="text" id="dogName" name="dogName" required>
+                    <label for="dogAge">Dog's Age:</label>
+                    <input type="number" id="dogAge" name="dogAge" required>
+                    <label for="breed">Breed:</label>
+                    <input type="text" id="breed" name="breed" required>
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    <label for="biography">Biography:</label>
+                    <textarea id="biography" name="biography"></textarea>
+                    <label for="uploadImages">Upload Images:</label>
+                    <input type="file" id="uploadImages" name="uploadImages" accept="image/*" multiple required>
+                    <button type="submit">Add Another Dog</button>
+                </form>
+            </section>
+        </div>
+
+        <!-- Part 1 ends here -->
+        <!-- Part 2 starts here -->
+
+        <section>
+            <h2>Schedule a Dog Walk</h2>
+            <form id="scheduleWalkForm">
+                <label for="eventName">Event Name:</label>
+                <input type="text" id="eventName" name="eventName" required>
+                <label for="eventDate">Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+                <label for="eventTime">Time:</label>
+                <input type="time" id="eventTime" name="eventTime" required>
+                <label for="eventLocation">Location:</label>
+                <select id="eventLocation" name="eventLocation">
+                    <option value="Red Morton Community Park">Red Morton Community Park</option>
+                    <option value="Stafford Park">Stafford Park</option>
+                    <option value="Stulsaft Park">Stulsaft Park</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button type="submit">Schedule Walk</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Dog-Friendly Parks</h2>
+            <div id="map" style="height: 400px;"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Dog Meet Dog. All rights reserved.</p>
+        <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-of-use.html">Terms of Use</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize map
+        document.addEventListener("DOMContentLoaded", function() {
+            if (document.getElementById('map')) {
+                var map = L.map('map').setView([37.4848, -122.2281], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Example locations (latitude, longitude)
+                var locations = [
+                    {lat: 37.4864, lon: -122.2325, name: "Red Morton Community Park"},
+                    {lat: 37.4976, lon: -122.2510, name: "Stafford Park"},
+                    {lat: 37.4833, lon: -122.2340, name: "Stulsaft Park"}
+                ];
+
+                locations.forEach(function(location) {
+                    L.marker([location.lat, location.lon])
+                        .addTo(map)
+                        .bindPopup(location.name);
+                });
+            }
+        });
+    </script>
+    <script src="validate_profile.js"></script>
+    <script src="add_dog.js"></script>
+    <script src="autocomplete_breed.js"></script>
+</body>
+</html>
